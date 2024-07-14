@@ -22,23 +22,26 @@ jobs:
         with:
           path: action
 
-      - name: Run the action - toolchain empty
+      - name: Run the action - toolchain manual
         uses: ./action/
         with:
-          prefix-key: 1
+          rust-toolchain: manual
+          prefix-key: 11
+        continue-on-error: true
 
       - name: Run the action - toolchain stable
         uses: ./action/
         with:
           rust-toolchain: stable
-          prefix-key: 2
+          prefix-key: 22
         continue-on-error: true
 
-      - name: Run the action - toolchain manual
+      - name: Run the action - toolchain manual + target
         uses: ./action/
         with:
           rust-toolchain: manual
-          prefix-key: 3
+          rust-target: aarch64-apple-darwin
+          prefix-key: 33
         continue-on-error: true
 
       - name: Run the action - toolchain stable + target
@@ -46,13 +49,5 @@ jobs:
         with:
           rust-toolchain: stable
           rust-target: aarch64-apple-darwin
-          prefix-key: 4
-        continue-on-error: true
-      
-      - name: Run the action - toolchain manual + target
-        uses: ./action/
-        with:
-          rust-toolchain: manual
-          rust-target: aarch64-apple-darwin
-          prefix-key: 5
+          prefix-key: 44
         continue-on-error: true
