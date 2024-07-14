@@ -1,0 +1,52 @@
+name: magnus-test
+
+on:
+  push: {}
+
+env:
+  RUST_BACKTRACE: 1
+
+jobs:
+  job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the test repository with patch change and patch version bump
+        uses: actions/checkout@v4
+        with:
+          repository: mgr0dzicki/cargo-semver-action-ref-slice
+          ref: patch_change
+          persist-credentials: true
+
+      - name: Checkout the action
+        uses: actions/checkout@v4
+        with:
+          path: action
+
+      - name: Run the action - toolchain empty
+        uses: ./action/
+
+      - name: Run the action - toolchain stable
+        uses: ./action/
+        with:
+          rust-toolchain: stable
+        continue-on-error: true
+
+      - name: Run the action - toolchain manual
+        uses: ./action/
+        with:
+          rust-toolchain: manual
+        continue-on-error: true
+
+      - name: Run the action - toolchain stable + target
+        uses: ./action/
+        with:
+          rust-toolchain: stable
+          rust-target: aarch64-apple-darwin
+        continue-on-error: true
+      
+      - name: Run the action - toolchain manual + target
+        uses: ./action/
+        with:
+          rust-toolchain: manual
+          rust-target: aarch64-apple-darwin
+        continue-on-error: true
